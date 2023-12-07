@@ -31,11 +31,38 @@
   {
     "name": "Fried Chicken",
     "cookingMethod": "deep fry",
-    "ingredients": ["chicken", "flour", "salt", "pepper", "garlic", "oil"]
+    "ingredients": [
+      "chicken",
+      "flour",
+      "salt",
+      "pepper",
+      "garlic",
+      "oil"
+    ]
   },
   {
     "name": "Baked Chicken",
     "cookingMethod": "oven bake",
-    "ingredients": ["chicken", "salt", "pepper", "garlic", "oil"]
+    "ingredients": [
+      "chicken",
+      "salt",
+      "pepper",
+      "garlic",
+      "oil"
+    ]
+  },
+  {
+    "name": "Snickerdoodles",
+    "cookingMethod": "bake",
+    "ingredients": [
+      "flour",
+      "sugar",
+      "eggs",
+      "vanilla",
+      "baking soda",
+      "salt",
+      "cream of tartar",
+      "cinammon"
+    ]
   }
 ]

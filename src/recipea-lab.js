@@ -24,9 +24,11 @@ const getRecipes = async () => {
 
 //This function returns just the requested recipe - with SQL, we won't have to read the entire database and then return one file, it will just go directly to that one file
 const getRecipe = async (id) => {
+  //this makes sure the computer isn't interpreting the entered ID as a string
+  const number = Number(id);
   const data = await fs.readFile("../data/recipea-data.json", "utf8");
-
-  return JSON.parse(data)[id];
+  const parsedData = JSON.parse(data);
+  return parsedData[number];
 };
 
 //This function deletes the selected file
@@ -53,26 +55,11 @@ const createRecipe = async (name, cookingMethod, ingredients) => {
   await fs.writeFile("../data/recipea-data.json", jsonAddRecipe);
 };
 
-const updateRecipe = async (id, name, cookingMethod, ingredients) => {
+const updateRecipe = async (id, updatedRecipe) => {
   const data = await fs.readFile("../data/recipea-data.json", "utf8");
-  const recipe = JSON.parse(data).filter((recipe, i) => i === id);
-  if (req.body.name === recipe[i].name || "") {
-    let a = 0;
-  } else {
-    recipe[i].name = req.body.name;
-  }
-  if (req.body.cookingMethod === recipe[i].cookingMethod || "") {
-    let a = 0;
-  } else {
-    recipe[i].cookingMethod = req.body.cookingMethod;
-  }
-  if (req.body.ingredients === recipe[i].ingredients || "") {
-    let a = 0;
-  } else {
-    recipe[i].ingredients = req.body.ingredients;
-  }
-  const jsonRecipes = JSON.stringify(recipes, null, 2);
-  await fs.writeFile("../data/recipea-data.json", jsonRecipes);
+  const recipe = JSON.parse(data).map((recipe, i) => {
+    return i === id ? updatedRecipe : recipe;
+  });
 };
 
 //Routes
@@ -84,8 +71,8 @@ app.get("/find-recipes", async (req, res) => {
   res.send(recipes);
 });
 
-app.get("/find-recipe", async (req, res) => {
-  const recipe = await getRecipe();
+app.get("/find-recipe/:id", async (req, res) => {
+  const recipe = await getRecipe(req.params.id);
   res.send(recipe);
 });
 
@@ -100,11 +87,6 @@ app.post("/create-recipe", async (req, res) => {
 });
 
 app.put("/update-recipe/:id", async (req, res) => {
-  res
-    .status(201)
-    .json(
-      "Please enter which recipe number you wish to change, and enter the new information in the correct field"
-    );
   await updateRecipe(
     req.body.id,
     req.body.name,
@@ -118,4 +100,6 @@ app.put("/update-recipe/:id", async (req, res) => {
     );
 });
 
-// await deleteRecipe(Number,(req.))
+app.delete("/delete-recipe", async (req, res) => {
+  const recipe = await deleteRecipe();
+});
