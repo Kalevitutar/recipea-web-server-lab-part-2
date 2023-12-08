@@ -87,19 +87,23 @@ app.post("/create-recipe", async (req, res) => {
 });
 
 app.put("/update-recipe/:id", async (req, res) => {
-  await updateRecipe(
-    req.body.id,
-    req.body.name,
-    req.body.cookingMethod,
-    req.body.ingredients
-  );
+  const updatedRecipe = await updateRecipe({
+    name: req.body.name,
+    cookingMethod: req.body.cookingMethod,
+    ingredients: req.body.ingredients,
+  });
+  await updateRecipe(Number(req.params.id), updatedRecipe);
+  res.send(updateRecipe);
   res
+    .send(updatedRecipe)
     .status(201)
     .json(
       "You have successfully updated the recipe - but are you positive it needs 5000 pounds of peas? That seems like ... too few"
     );
 });
 
-app.delete("/delete-recipe", async (req, res) => {
-  const recipe = await deleteRecipe();
+app.delete("/delete-recipe/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const recipe = await deleteRecipe(id);
+  res.send("Recipe with this ID has been deleted");
 });
