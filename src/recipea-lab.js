@@ -55,11 +55,21 @@ const createRecipe = async (name, cookingMethod, ingredients) => {
   await fs.writeFile("../data/recipea-data.json", jsonAddRecipe);
 };
 
+// const updateRecipe = async (id, updatedRecipe) => {
+//   const data = await fs.readFile("../data/recipea-data.json", "utf8");
+//   const recipe = JSON.parse(data).map((recipe, i) => {
+//     return i === id ? updatedRecipe : recipe;
+//   });
+//   const jsonUpdatedRecipe = JSON.stringify(recipe, null, 2);
+//   await fs.writeFile("../data/recipea-data.json", jsonUpdatedRecipe);
+// };
+
 const updateRecipe = async (id, updatedRecipe) => {
   const data = await fs.readFile("../data/recipea-data.json", "utf8");
-  const recipe = JSON.parse(data).map((recipe, i) => {
-    return i === id ? updatedRecipe : recipe;
-  });
+  const recipeArray = JSON.parse(data);
+  recipeArray[id] = updatedRecipe;
+  const jsonUpdatedRecipe = JSON.stringify(recipeArray, null, 2);
+  await fs.writeFile("../data/recipea-data.json", jsonUpdatedRecipe);
 };
 
 //Routes
@@ -86,20 +96,31 @@ app.post("/create-recipe", async (req, res) => {
   res.status(201).json("You added a new recipe");
 });
 
+// app.put("/update-recipe/:id", async (req, res) => {
+//   const updatedRecipe = await updateRecipe({
+//     name: req.body.name,
+//     cookingMethod: req.body.cookingMethod,
+//     ingredients: req.body.ingredients,
+//   });
+//   await updateRecipe(Number(req.params.id), updatedRecipe);
+//   res.send(updateRecipe);
+//   res
+//     .send(updatedRecipe)
+//     .status(201)
+//     .json(
+//       "You have successfully updated the recipe - but are you positive it needs 5000 pounds of peas? That seems like ... too few"
+//     );
+// });
+
 app.put("/update-recipe/:id", async (req, res) => {
+  const recipeID = Number(req.params.id);
   const updatedRecipe = await updateRecipe({
     name: req.body.name,
     cookingMethod: req.body.cookingMethod,
     ingredients: req.body.ingredients,
   });
-  await updateRecipe(Number(req.params.id), updatedRecipe);
-  res.send(updateRecipe);
-  res
-    .send(updatedRecipe)
-    .status(201)
-    .json(
-      "You have successfully updated the recipe - but are you positive it needs 5000 pounds of peas? That seems like ... too few"
-    );
+  await updateRecipe(recipeID, updatedRecipe);
+  res.send("whoo hoo???");
 });
 
 app.delete("/delete-recipe/:id", async (req, res) => {
