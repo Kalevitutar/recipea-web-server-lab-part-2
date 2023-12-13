@@ -114,13 +114,24 @@ app.post("/create-recipe", async (req, res) => {
 
 app.put("/update-recipe/:id", async (req, res) => {
   const recipeID = Number(req.params.id);
-  const updatedRecipe = await updateRecipe({
+  const updatedRecipe = {
     name: req.body.name,
     cookingMethod: req.body.cookingMethod,
     ingredients: req.body.ingredients,
-  });
+  };
   await updateRecipe(recipeID, updatedRecipe);
-  res.send("whoo hoo???");
+  res
+    .status(201)
+    .json(
+      "You have successfully updated the recipe - but are you positive it needs 5000 pounds of peas? That seems like ... too few"
+    );
+  res.send(updatedRecipe);
+
+  // res
+  //   .status(201)
+  //   .json(
+  //     "You have successfully updated the recipe - but are you positive it needs 5000 pounds of peas? That seems like ... too few"
+  //   );
 });
 
 app.delete("/delete-recipe/:id", async (req, res) => {

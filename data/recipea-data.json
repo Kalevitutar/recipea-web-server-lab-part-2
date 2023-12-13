@@ -29,13 +29,19 @@
     ]
   },
   {
-    "name": "Fried Chicken",
-    "cookingMethod": "deep fry",
-    "ingredients": ["chicken", "flour", "salt", "pepper", "garlic", "oil"]
+    "name": "whoosawhumpus",
+    "cookingMethod": "cauldron",
+    "ingredients": "eye of something, toe of something"
   },
   {
     "name": "Baked Chicken",
     "cookingMethod": "oven bake",
-    "ingredients": ["chicken", "salt", "pepper", "garlic", "oil"]
+    "ingredients": [
+      "chicken",
+      "salt",
+      "pepper",
+      "garlic",
+      "oil"
+    ]
   }
 ]
